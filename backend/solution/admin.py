@@ -15,5 +15,13 @@ class ReadOnlyAdminMixin:
 
 @admin.register(Solution)
 class SolutionAdmin(ReadOnlyAdminMixin, admin.ModelAdmin):
-    list_display = ("id", "status", "created_at", "updated_at",)
-    list_filter = ("created_at", "status",)
+    list_display = (
+        "id",
+        "status",
+        "created_at",
+        "updated_at",
+    )
+    list_filter = (
+        "created_at",
+        "status",
+    )
