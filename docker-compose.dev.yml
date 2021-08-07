@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  scp_backend:
+    build: .
+    depends_on:
+      - scp_postgres
+    environment:
+      DEBUG: 1
+      ALLOWED_HOSTS: 127.0.0.1,localhost
+      DATABASE_URI: postgres://user@scp_postgres:5432/solving_code_problems
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend/:/app/backend/
+
+  scp_postgres:
+    image: postgres:13.3-alpine
+    environment:
+      - POSTGRES_DB=solving_code_problems
+      - POSTGRES_USER=user
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432
+    volumes:
+      - scp_pg_data:/var/lib/postgresql/data
+
+volumes:
+  scp_pg_data:
