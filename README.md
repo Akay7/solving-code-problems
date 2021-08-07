@@ -10,8 +10,12 @@
 
 3. Migrate database
 
-    ```docker-compose exec scp_backend /bin/bash -c "cd backend; python3 ./manage.py migrate"```
+    ```docker-compose exec scp_backend /bin/bash -c "python3 manage.py migrate"```
 
 4. Run tests(optional)
 
-   ```docker-compose exec scp_backend /bin/bash -c "cd backend; pytest"```
+    ```docker-compose exec scp_backend /bin/bash -c "pytest"```
+
+5. Create superuser
+
+   ```docker-compose exec scp_backend /bin/bash -c "python3 manage.py createsuperuser"```

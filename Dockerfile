@@ -13,9 +13,10 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 COPY requirements.txt ./
 RUN pip3 install --no-cache-dir -r requirements.txt
 COPY configs/nginx_server.conf /etc/nginx/sites-enabled/default
-COPY backend ./backend/
+WORKDIR /app/backend/
+COPY backend ./
 
-RUN python3 ./backend/manage.py collectstatic -l
+RUN python3 ./manage.py collectstatic -l
 CMD nginx && \
     gunicorn --bind unix:/tmp/gunicorn.sock --timeout 1800 --workers 5 \
-             --chdir backend solving_code_problems.wsgi:application
+             solving_code_problems.wsgi:application
