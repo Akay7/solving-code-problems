@@ -10,11 +10,6 @@ class SolutionFactory(factory.django.DjangoModelFactory):
         model = Solution
 
 
-@pytest.fixture(autouse=True)
-def use_db(db):
-    pass
-
-
 @pytest.fixture
 def solution_valid_payload():
     return {"code": "mock"}
