@@ -21,3 +21,10 @@ ALLOWED_HOSTS = environ.get("ALLOWED_HOSTS", "").split(",")
 
 DATABASE_URI = environ.get("DATABASE_URI")
 DATABASES = {"default": dj_database_url.parse(DATABASE_URI) if DATABASE_URI else {}}
+
+
+# Celery
+# https://docs.celeryproject.org/en/latest/userguide/configuration.html#configuration
+CELERY_BROKER_URL = environ.get("CELERY_BROKER_URI")
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_TASK_TRACK_STARTED = True

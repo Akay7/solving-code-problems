@@ -5,14 +5,26 @@ services:
     build: .
     depends_on:
       - scp_postgres
-    environment:
-      DEBUG: 1
-      ALLOWED_HOSTS: 127.0.0.1,localhost
-      DATABASE_URI: postgres://user@scp_postgres:5432/solving_code_problems
+    env_file:
+      - .env.dev
     ports:
       - 8000:8000
     volumes:
       - ./backend/:/app/backend/
+
+  scp_celery-worker:
+    build: .
+    command: [
+        'celery', '-A', 'solving_code_problems', 'worker', '-l', 'INFO', '-E',
+    ]
+    depends_on:
+      - scp_postgres
+      - scp_rabbitmq
+    env_file:
+      - .env.dev
+    volumes:
+      - ./backend/:/app/backend/
+
 
   scp_postgres:
     image: postgres:13.3-alpine
@@ -25,5 +37,13 @@ services:
     volumes:
       - scp_pg_data:/var/lib/postgresql/data
 
+  scp_rabbitmq:
+    image: rabbitmq:3.9-alpine
+    ports:
+      - 5672
+    volumes:
+      - scp_rmq_data:/var/lib/rabbitmq
+
 volumes:
   scp_pg_data:
+  scp_rmq_data:

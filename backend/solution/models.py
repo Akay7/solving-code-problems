@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from solution_verification_provider.models import Submission
 
 
 class Solution(models.Model):
@@ -16,6 +17,9 @@ class Solution(models.Model):
         default=SolutionStatusChoices.EVALUATION,
     )
     code = models.TextField()
+    submission = models.ForeignKey(
+        Submission, null=True, related_name="solutions", on_delete=models.CASCADE
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

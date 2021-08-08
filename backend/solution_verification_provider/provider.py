@@ -20,3 +20,11 @@ def get_or_create_submission_result(reply: str) -> Submission:
         id=id_, defaults=dict(reply=reply, status=status)
     )
     return submission
+
+
+def check_submission_result(submission: Submission) -> Submission:
+    if submission.status == Submission.SubmissionStatusChoice.EVALUATION:
+        id_, status = get_submission(submission.id)
+        submission.status = status
+        submission.save()
+    return submission
